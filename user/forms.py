@@ -7,12 +7,54 @@ from .models import User
 class UserCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+
+
+    def __init__(self, *args, **kwargs):
+        # first call parent's constructor
+        super(UserCreationForm, self).__init__(*args, **kwargs)
+        
+        # now required field set to True
+        for field in self.Meta.required:
+            self.fields[field].required = True
+            
+        # if specific field is not required
+        # self.fields['desired_field_name'].required = False
+    
+    password1 = forms.CharField(label='Confirm Password', 
+    widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder':'Password'}))
+    password2 = forms.CharField(label='Confirm Password', 
+    widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder':'Confirm Password'}))
 
     class Meta:
         model = User
-        fields = ('email', 'first_name', 'last_name', 'country', 'city', 'date_of_birth')
+        fields = ['email', 'first_name', 'last_name', 'country', 'city', 'date_of_birth']
+        # exclude = ['email']
+
+        required = ['first_name', 'last_name', 'country', 'city']
+        labels = {
+            'email': 'Email',
+            'first_name': 'First Name',
+            'last_name': 'Last Name',
+            'date_of_birth': 'Date of Birth'
+        }
+        
+        widgets = {
+            'email': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Email'}),
+            'first_name': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'First Name'}),
+            'last_name': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Last Name'}),
+            'country': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Country Name'}),
+            'city': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'City Name'}),
+            'date_of_birth': forms.TextInput(attrs={'class':'form-control', 'placeholder': '(Date of Birth) YY/MM/DD'}),
+        }
+
+        error_messages = {
+
+            'email':{'required':'Emain can not be Empty.'}
+        }
+        
+        # help_texts = {
+        #     # 'author_name': 'Some useful help text.',
+        # }
 
 
     def clean(self):

@@ -45,4 +45,4 @@ admin.site.register(User, UserAdmin)
 # unregister the Group model from admin.
 admin.site.unregister(Group)
 
-#email:admin@gmail.com           # password: django123   
+#email:admin@gmail.com           # password: django123

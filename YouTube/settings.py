@@ -136,3 +136,12 @@ MEDIA_ROOT = Path.joinpath(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+# django Email backend
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'    # for live server
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # for console
+EMAIL_HOST_USER = 'youtube@utube.com'
