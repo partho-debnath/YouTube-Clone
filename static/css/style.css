@@ -69,3 +69,60 @@ ul {
 }
 
 /* signup end */
+
+
+/* ................................................. */
+/* ................................................. */
+
+
+/* button start */
+
+button {
+  font-size: 25px;
+  padding: 8px;
+  border-radius: 8px;
+  border-color: #2415af;
+  color: #2415af;
+}
+
+button:hover {
+  background-color: #4738cf;
+  color: white;
+}
+
+/* button end */
+
+
+/* ................................................. */
+/* ................................................. */
+
+
+/* messages start */
+
+.messages {
+  background: whitesmoke;
+  font-size: 30px;
+}
+
+.messages li{
+  float:none;
+  margin-bottom: 5px;
+}
+
+.info {
+  color: rgb(236, 62, 62);
+}
+
+.success {
+  color: rgb(50, 177, 50);
+}
+
+.warning {
+  color: rgb(236, 38, 38);
+}
+
+/* messages end */
+
+
+/* ................................................. */
+/* ................................................. */
