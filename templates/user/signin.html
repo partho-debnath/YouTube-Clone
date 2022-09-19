@@ -15,15 +15,15 @@
             {% endfor %}
     </ul>
     {% endif %}
-    <form action="{% url 'sign-up' %}" method="post">
+    <form action="{% url 'signin' %}" method="post">
         {% csrf_token %}
-
+           
         {% for field in form %}
             {{ field.errors }}
             {{ field }} <br>
         {% endfor %}
-        
-        <button type="submit">Signup</button>
+
+        <button type="submit">Signin</button>
     </form>
 </div>
 
