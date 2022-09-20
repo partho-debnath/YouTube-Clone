@@ -41,16 +41,19 @@ class Signin(View):
         context = {'form': form}
         return render(request, self.template_name, context)
     
+
     def post(self, request, *args, **kwargs):
+
         form = CustomAuthenticationForm(request=request, data=request.POST)
-        
         if form.is_valid() == True:
             user = authenticate(email=form.cleaned_data['username'], password=form.cleaned_data['password'])
+        
             if user is not None:
                 login(request, user)
             return HttpResponse(f'{request.user}')
         else:
             context = {'form': form}
+            
         return render(request, self.template_name, context)
 
 

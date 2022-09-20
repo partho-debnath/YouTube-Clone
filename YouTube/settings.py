@@ -145,3 +145,20 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # for console
 EMAIL_HOST_USER = 'youtube@utube.com'
+
+
+
+
+
+'''
+if a user try to login his account and his account is not active this means user "is_active is False", then i show a Error message in "This Account is Inactive. Before Login please Active your Account. (inside forms.py file CustomAuthenticationForm)"
+
+https://stackoverflow.com/questions/43184151/django-user-is-active
+
+The default ModelBackend authentication backend started rejecting inactive users in Django 1.10. Therefore your authenticate() call returns None, and you get the Invalid username/password! message from the outer if/else statement.
+
+As Daniel says, if you use the default ModelBackend, you no longer need to check user.is_active in your login view.
+
+If you really want authenticate to return inactive users, then you can use AllowAllUsersModelBackend instead. If you do this, then it is your responsibility to check the is_active flag in your login view.
+'''
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.AllowAllUsersModelBackend']

@@ -3,6 +3,7 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField, AuthenticationF
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import gettext_lazy as _
 
+
 from .models import User
 
 
@@ -106,12 +107,12 @@ class UserChangeForm(forms.ModelForm):
         return self.initial['password']
 
 
-class CustomAuthenticationForm(AuthenticationForm):
+class CustomAuthenticationForm(AuthenticationForm):   # inherite the django builtin AuthenticationForm
     """
     Base class for authenticating users. Extend this to get a form that accepts
     username/password logins.
     """
-
+    # add class and placeholder
     username = forms.EmailField(
         widget=forms.TextInput(attrs={
             "autofocus": True,
@@ -120,6 +121,7 @@ class CustomAuthenticationForm(AuthenticationForm):
             }
         )
     )
+    # add class and placeholder
     password = forms.CharField(
         label=_("Password"),
         strip=False,
@@ -130,11 +132,11 @@ class CustomAuthenticationForm(AuthenticationForm):
             }
         ),
     )
-
-    error_messages = {
+    # override the error_messages
+    error_messages = { 
         "invalid_login": _(
             "Please Enter a Correct %(username)s and Password. Note that Both "
             "Fields may be Case-sensitive."
         ),
-        "inactive": _("This Account is Inactive."),
+        "inactive": _("This Account is Inactive. Before Login please Active your Account."),
     }
