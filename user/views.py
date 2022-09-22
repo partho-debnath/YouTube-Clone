@@ -1,16 +1,15 @@
-import email
-from django.shortcuts import render, get_object_or_404, HttpResponse
+from django.shortcuts import render, HttpResponse
 from django.views import View
 from django.contrib import messages
-from django.utils.encoding import force_str
-from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.auth import authenticate, login, logout
 
 
 from .signals import *
+from .helper import get_user
 from .models import User
-from .forms import UserCreationForm, CustomAuthenticationForm
+from .forms import (UserCreationForm, CustomAuthenticationForm, 
+                CustomPasswordResetForm, CustomSetPasswordForm)
 
 # Create your views here.
 
@@ -59,21 +58,75 @@ class Signin(View):
 
 def accountActivation(request, *args, **kwargs):
 
-    encoded_uid = kwargs['uid']
-    token = kwargs['token']
-    
     try:
-        uid = force_str(urlsafe_base64_decode(encoded_uid))
-        user = get_object_or_404(User, pk=uid)
-        if PasswordResetTokenGenerator().check_token(user, token) == True:
+        user = get_user(kwargs)
+        if PasswordResetTokenGenerator().check_token(user, kwargs['token']) == True:
             user.is_active = True
             user.save()
             messages.success(request, 'Your Account is Activated now You can Login your Account.')
             return render(request, 'user/signup.html')
         else:
-            messages.warning(request, 'Token is not Valid.')
-            return render(request, 'user/signup.html')
+            messages.warning(request, 'This Link(Token) is not Valid or Expired.Try to Generate another Link.')
+            return render(request, 'user/link_expired_or_not_valid.html')
 
     except Exception as e:
         messages.warning(request, 'User not Found.')
         return render(request, 'user/signup.html')
+
+
+class PasswordReset(View):
+
+    template_name = 'user/passwordReset.html'
+
+    def get(self, request, *args, **kwargs):
+
+        form = CustomPasswordResetForm()
+        context = {'form': form}
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        form = CustomPasswordResetForm(request.POST)
+        if form.is_valid() == True:
+            '''
+            this save method is not save in data on databases. 
+            ''' 
+            messages.success(request, "We've emailed you instructions for setting your password, if an account exists with the email you entered. You should receive them shortly. If you don't receive an email, please make sure you've entered the address you registered with, and check your spam folder.")
+            form.save(request)
+        context = {'form': form}
+        return render(request, self.template_name, context)
+
+
+class PasswordResetConfirm(View):
+
+    template_name = 'user/password_reset_confirm.html'
+
+    def get(self, request, *args, **kwargs):
+        user = get_user(kwargs)
+
+        if PasswordResetTokenGenerator().check_token(user, kwargs['token']) == True:
+            form = CustomSetPasswordForm(user=user)
+        else:
+            messages.warning(request, 'This Link(Token) is not Valid or Expired.Try to Generate another Link.')
+            return render(request, 'user/link_expired_or_not_valid.html')
+
+        context = {'form': form}
+        return render(request, self.template_name, context)
+    
+
+    def post(self, request, *args, **kwargs):
+        user = get_user(kwargs)
+
+        if PasswordResetTokenGenerator().check_token(user, kwargs['token']) == True:
+            form = CustomSetPasswordForm(user=user, data=request.POST)
+            if form.is_valid() == True:
+                form.save()
+                messages.success(request, 'Password Reset Successfully completed. You Can now Signin Your Account.')
+        else:
+            messages.warning(request, 'This Link(Token) is not Valid or Expired.Try to Generate another Link.')
+            return render(request, 'user/link_expired_or_not_valid.html')
+
+        context = {'form': form}
+        return render(request, self.template_name, context)
+
+        
+

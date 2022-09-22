@@ -1,7 +1,18 @@
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField, AuthenticationForm
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, SetPasswordForm
 from django.utils.translation import gettext_lazy as _
+from django.conf import settings
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.contrib.auth import password_validation
+
+from django.core.mail import send_mail
+from django.conf import settings
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.urls import reverse
+
 
 
 from .models import User
@@ -140,3 +151,97 @@ class CustomAuthenticationForm(AuthenticationForm):   # inherite the django buil
         ),
         "inactive": _("This Account is Inactive. Before Login please Active your Account."),
     }
+
+
+class CustomPasswordResetForm(PasswordResetForm):
+
+    email = forms.EmailField(
+        label=_("Email"),
+        max_length=254,
+        widget=forms.EmailInput(
+            attrs={
+                'placeholder': 'Email',
+                "autocomplete": "email",
+                'class':'form-control',
+            }
+        ),
+    )
+
+    '''
+    Override the save method of PasswordResetForm
+    '''
+    def save(self, request=None):
+        """
+        Generate a one-use only link for resetting password and send it to the
+        user.
+        """
+
+        domain_override=request.META['HTTP_HOST']  # root url
+        subject_template_name='user/password_reset_subject.txt'   # Email Subject
+        email_template_name='user/password_reset_email.html'     # Email Link 
+        from_email=settings.EMAIL_HOST_USER     # From email
+        token_generator = PasswordResetTokenGenerator()
+        html_email_template_name=None
+
+        return super(CustomPasswordResetForm, self).save(
+            domain_override=domain_override,
+            subject_template_name=subject_template_name,
+            email_template_name=email_template_name,
+            from_email= from_email,
+            token_generator=token_generator,
+            request=request,
+            html_email_template_name=html_email_template_name
+        )
+
+
+
+    # def save(self, request=None):
+    #     email = self.cleaned_data['email']
+    #     instance = User.objects.get(email=email)
+    #     encoded_uid = urlsafe_base64_encode(force_bytes(instance.id))
+    #     token = PasswordResetTokenGenerator().make_token(instance)
+    #     root_url = 'http://127.0.0.1:8000'
+    #     root_url = ''
+    #     url = root_url + reverse('confirm-password', kwargs={'uid':encoded_uid, 'token':token})
+
+    #     send_mail(
+    #         subject = 'Account Activation Link',
+    #         message = f'Goto the link {url} and active your account',
+    #         from_email = settings.EMAIL_HOST_USER,
+    #         recipient_list = [instance.email,]
+    #     )
+
+
+
+class CustomSetPasswordForm(SetPasswordForm):
+    """
+    A form that lets a user change set their password without entering the old
+    password
+    """
+
+    error_messages = {
+        "password_mismatch": _("New Password and Confirm Password didn’t match."),
+    }
+    new_password1 = forms.CharField(
+        label=_("New password"),
+        widget=forms.PasswordInput(
+            attrs={
+                "autocomplete": "new-password",
+                'class':'form-control',
+                'placeholder': 'New Password'
+                }
+        ),
+        strip=False,
+        help_text=password_validation.password_validators_help_text_html(),
+    )
+    new_password2 = forms.CharField(
+        label=_("New password confirmation"),
+        strip=False,
+        widget=forms.PasswordInput(
+            attrs={
+                "autocomplete": "new-password",
+                'class':'form-control',
+                'placeholder': 'New Confirm Password'
+                }
+        ),
+    )
