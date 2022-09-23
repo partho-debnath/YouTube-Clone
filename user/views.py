@@ -1,15 +1,18 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from django.views import View
 from django.contrib import messages
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
-from django.contrib.auth import authenticate, login, logout
-
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .signals import *
 from .helper import get_user
 from .models import User
 from .forms import (UserCreationForm, CustomAuthenticationForm, 
-                CustomPasswordResetForm, CustomSetPasswordForm)
+                CustomPasswordResetForm, CustomSetPasswordForm,
+                CustomPasswordChangeForm,)
 
 # Create your views here.
 
@@ -73,6 +76,11 @@ def accountActivation(request, *args, **kwargs):
         messages.warning(request, 'User not Found.')
         return render(request, 'user/signup.html')
 
+@login_required(login_url='signin')
+def Logout(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('signin'))
+
 
 class PasswordReset(View):
 
@@ -129,4 +137,21 @@ class PasswordResetConfirm(View):
         return render(request, self.template_name, context)
 
         
+class PasswordChange(LoginRequiredMixin, View):
 
+    login_url = 'signin'
+    template_name = 'user/changePassword.html'
+
+    def get(self, request, *args, **kwargs):
+        form = CustomPasswordChangeForm(user=request.user)
+        context = {'form': form}
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        form = CustomPasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid() == True:
+            form.save()
+            update_session_auth_hash(request, request.user)
+            messages.success(request, 'Password Change Successfully.')
+        context = {'form': form}
+        return render(request, self.template_name, context)

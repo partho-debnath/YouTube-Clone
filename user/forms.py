@@ -1,10 +1,11 @@
 from django import forms
-from django.contrib.auth.forms import ReadOnlyPasswordHashField, AuthenticationForm
-from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, SetPasswordForm
+from django.contrib.auth.forms import (AuthenticationForm, ReadOnlyPasswordHashField,
+PasswordResetForm,  SetPasswordForm)
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.auth import password_validation
+from django.core.exceptions import ValidationError
 
 from django.core.mail import send_mail
 from django.conf import settings
@@ -220,7 +221,7 @@ class CustomSetPasswordForm(SetPasswordForm):
     """
 
     error_messages = {
-        "password_mismatch": _("New Password and Confirm Password didn’t match."),
+        "password_mismatch": _("New Password and Confirm Password didn’t Match."),
     }
     new_password1 = forms.CharField(
         label=_("New password"),
@@ -245,3 +246,45 @@ class CustomSetPasswordForm(SetPasswordForm):
                 }
         ),
     )
+
+
+class CustomPasswordChangeForm(CustomSetPasswordForm):
+    """
+    A form that lets a user change their password by entering their old
+    password.
+    """
+
+    error_messages = {
+        **SetPasswordForm.error_messages,
+        "password_incorrect": _(
+            "Your old Password was Entered Incorrectly. Please Enter it Again."
+        ),
+        "password_mismatch": _("New Password and Confirm Password didn’t Match."),
+    }
+
+    old_password = forms.CharField(
+        label=_("Old password"),
+        strip=False,
+        widget=forms.PasswordInput(
+            attrs={"autocomplete": "current-password",
+            "autofocus": True,
+            'class':'form-control',
+            'placeholder': 'Old Password'
+            }
+        ),
+    )
+
+    field_order = ["old_password", "new_password1", "new_password2"]
+
+    def clean_old_password(self):
+        """
+        Validate that the old_password field is correct.
+        """
+        
+        old_password = self.cleaned_data["old_password"]
+        if not self.user.check_password(old_password):
+            raise ValidationError(
+                self.error_messages["password_incorrect"],
+                code="password_incorrect",
+            )
+        return old_password
