@@ -50,7 +50,8 @@ class UserCreationForm(forms.ModelForm):
             'email': 'Email',
             'first_name': 'First Name',
             'last_name': 'Last Name',
-            'date_of_birth': 'Date of Birth'
+            'date_of_birth': 'Date of Birth',
+            'city': 'City'
         }
         
         widgets = {
