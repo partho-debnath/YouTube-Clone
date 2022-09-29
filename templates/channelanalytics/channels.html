@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %} Channels {% endblock title %}
+
+{% block main_content %}
+
+<div class="container">
+
+    {% for channel in channels %}
+
+    {% if channel.maincontent %}
+        <div class="channel">
+            <a href="{% url 'channel-details' channel.id %}">
+                <video width="420" height="240" controls controlsList="nodownload">
+                    <source src="{{ channel.maincontent.url }}" type="video/mp4">
+                    <source src="{{ channel.maincontent.url }}" type="video/ogg">
+                    Your browser does not support the video tag.
+                  </video>
+                 </a>
+                 {{ channel.name }}
+            {{ channel.user }}
+        </div>
+    {% endif %}
+    {% endfor %}
+
+    
+</div>
+
+{% endblock main_content %}

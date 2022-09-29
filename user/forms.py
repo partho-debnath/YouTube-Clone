@@ -65,7 +65,7 @@ class UserCreationForm(forms.ModelForm):
 
         error_messages = {
 
-            'email':{'required':'Emain can not be Empty.'}
+            'email':{'required':'Email can not be Empty.'}
         }
         
         # help_texts = {
