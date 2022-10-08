@@ -144,3 +144,51 @@ button:hover {
 
 /* ................................................. */
 /* ................................................. */
+
+/* video start */
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+  padding: 10px;
+}
+
+.grid-container a {
+  background-color: rgba(255, 255, 255, 0.8);
+  width: 355px;
+  height: 350px;
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  margin-bottom: 30px;
+  text-decoration: none;
+}
+
+.channel {
+  height: 102px;
+  margin: 0px;
+  width: 98%;
+}
+
+.channel .channel-icon {
+  height: 100%;
+  float: left;
+}
+
+.channel .channel-icon img{
+  height: 40px;
+  border-radius: 50%;
+}
+
+.channel .video-info h3, h4{
+  margin: 0px 0px 2px 0px;
+}
+
+
+/* video end */
+
+
+
+/* ................................................. */
+/* ................................................. */
+
+
+

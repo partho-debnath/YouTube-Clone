@@ -11,6 +11,8 @@ class AdminPlayList(admin.ModelAdmin):
     model = PlayList
     list_display = ['channel', 'title', 'created']
     list_filter = ['title']
+    search_fields = ['channel']
+    list_editable = ['title']
 
 
 
@@ -20,6 +22,8 @@ class AdminVideoContent(admin.ModelAdmin):
     model = VideoContent
     list_display = ['contenttitle', 'playlisttitle', 'uploaded', 'updated']
     list_filter =  ['contenttitle']
+    search_fields = ['contenttitle']
+    
 
 
 class AdminUserReact(admin.ModelAdmin):
