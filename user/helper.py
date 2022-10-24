@@ -9,7 +9,7 @@ from .models import User
 def get_user(kwargs)-> User:
     
     encoded_uid = kwargs['uid']
-    token = kwargs['token']
+    # token = kwargs['token']
     uid = force_str(urlsafe_base64_decode(encoded_uid))
     user = get_object_or_404(User, pk=uid)
     

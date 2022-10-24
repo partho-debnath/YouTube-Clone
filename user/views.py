@@ -66,10 +66,10 @@ def accountActivation(request, *args, **kwargs):
         if PasswordResetTokenGenerator().check_token(user, kwargs['token']) == True:
             user.is_active = True
             user.save()
-            messages.success(request, 'Your Account is Activated now You can Login your Account.')
+            messages.success(request, 'Your Account is Activated now You can Login Your Account.')
             return render(request, 'user/signup.html')
         else:
-            messages.warning(request, 'This Link(Token) is not Valid or Expired.Try to Generate another Link.')
+            messages.warning(request, 'This Link(Token) is not Valid or Expired.Try to Generate Another Link.')
             return render(request, 'user/link_expired_or_not_valid.html')
 
     except Exception as e:

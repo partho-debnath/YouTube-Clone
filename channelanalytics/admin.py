@@ -10,4 +10,8 @@ class AdminChannel(admin.ModelAdmin):
     model = Channel
     list_display = ['user', 'name', 'created']
     list_filter = ['name', ]
+    # prepopulated_fields = {'channelUid': ['name', ]}
+    # fields = ['user', 'name']  # display specific fields in admin pannel
+    exclude = ['slug', ]  # hide specific fields in admin pannel
+
     

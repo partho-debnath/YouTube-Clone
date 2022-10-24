@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import FileExtensionValidator
+from django.utils.text import slugify
 
 from user.models import User
 
@@ -15,9 +16,15 @@ class Channel(models.Model):
     maincontent = models.FileField(help_text='Upload a Short Video.', 
         upload_to='mediafilles/', blank=True, null=True, 
         validators=[FileExtensionValidator(allowed_extensions=['MOV','avi','mp4','webm','mkv'])])
+    coverPicture = models.ImageField(help_text='Upload A Cover Picture.',
+        upload_to='mediafilles/coverPicture/', default='defaultCoverPicture.jpg', verbose_name='Cover Picture')
+    channelLogo = models.ImageField(help_text='Upload A Picture(Channel Logo).',
+        upload_to='mediafilles/coverPicture/', default='channelLogoDefault.jpg', verbose_name='Channel Logo')
     subscriber = models.ManyToManyField(User, blank=True, 
         related_name='sususer',verbose_name='Subscriber Email')
     created = models.DateTimeField(auto_now_add=True)
+    about = models.TextField(verbose_name='About This Channel.', max_length=800)
+    slug = models.SlugField(unique=True)
 
     def __str__(self):
         return self.name
@@ -25,6 +32,10 @@ class Channel(models.Model):
     @property
     def totalSubscriber(self):
         return self.subscriber.count()
+    
+    def save(self, *args, **kwargs):
+        self.slug = slugify(str(self.user.pk) + '-' + self.name)
+        super().save(*args, **kwargs)
     
     class Meta:
         verbose_name = "Channel"

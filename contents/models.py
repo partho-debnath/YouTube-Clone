@@ -15,7 +15,7 @@ class PlayList(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     
     def __str__(self) -> str:
-        return self.title.title() + f'   ||   {self.channel}   ||   {self.channel.user}'
+       return self.title.title() + f'   ||   {self.channel}   ||   {self.channel.user}'
     
     class Meta:
         unique_together = ['title', 'channel']
