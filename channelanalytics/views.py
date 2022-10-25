@@ -19,7 +19,7 @@ class CreateChannel(LoginRequiredMixin, View):
     template_name ='channelanalytics/createOrEditChannel.html'
 
     def get(self, request, *args, **kwargs):
-
+        
         form = ChannelCreateForm(initial={'user':request.user})
         context = {'form': form}
         return render(request, self.template_name, context)
@@ -31,6 +31,7 @@ class CreateChannel(LoginRequiredMixin, View):
         if form.is_valid():
             form.save()
             messages.success(request, 'Channel Created Successfully.')
+            return HttpResponseRedirect(reverse('update-channel', kwargs={'pk':request.POST['user']}))
         context = {'form': form}
         return render(request, self.template_name, context)
 
@@ -42,27 +43,21 @@ class EditChannel(LoginRequiredMixin, View):
     template_name ='channelanalytics/createOrEditChannel.html'
 
     def get(self, request, *args, **kwargs):
-
-        form = ChannelEditForm(initial={'user':request.user.pk})
+        instance = Channel.objects.get(user=request.user)
+        form = ChannelEditForm(instance=instance)
         context = {'form': form}
         return render(request, self.template_name, context)
     
 
     def post(self, request, *args, **kwargs):
-        
-        print('=================', request.POST, '---', request.FILES)
-        form = ChannelEditForm(request.POST)
+        instance = Channel.objects.get(user=request.POST.get('user'))
+        form = ChannelEditForm(request.POST, request.FILES, instance=instance)
     
         if form.is_valid():
-            print(form.cleaned_data)
-        #     # form.save()
-        #     messages.success(request, 'Update Successfully.')
-        else:
-            print('error-----------------')
-        #     print(form.errors)
-        #     print(form.cleaned_data)
-        context = {'form': form}
-        return render(request, self.template_name, context)
+            form.save()
+            messages.success(request, 'Update Successfully.')
+        
+        return HttpResponseRedirect(reverse('update-channel', kwargs={'pk':instance.pk}))
 
 
 

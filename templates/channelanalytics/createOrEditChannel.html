@@ -1,13 +1,33 @@
 {% extends 'base.html' %}
 
-{% block title %} Create Channel {% endblock title %}
+{% block title %}
+    {% if request.user.user.name %}
+        Update Channel {{ request.user.user.name }}
+    {% else %}
+        Create Channel 
+    {% endif %}
+{% endblock title %}
+
 
 {% block main_content %}
 
 
+{% if request.user.user.name %}
+    <div class="form">
+        {% include 'messages.html' %}
 
+        <form action="{% url 'update-channel' 1 %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for field in form %}
+            {{field.help_text}}
+                {{ field }} {{ field.errors }}
+                <br>
+            {% endfor %}
+            <button type="submit">Update</button>
+        </form>
+    </div>
 
-{% if request.user.user.name is None %}
+{% else %}
     <div class="form">
         {% include 'messages.html' %}
 
@@ -20,22 +40,6 @@
                 {{ field }}<br>
             {% endfor %}
             <button type="submit">Create</button>
-        </form>
-    </div>
-
-{% else %}
-
-    <div class="form">
-        {% include 'messages.html' %}
-
-        <form action="{% url 'update-channel' 1 %}" method="post">
-            {% csrf_token %}
-            {% for field in form %}
-            {{field.help_text}}
-                {{ field }}
-                <br>
-            {% endfor %}
-            <button type="submit">Update</button>
         </form>
     </div>
 

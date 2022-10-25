@@ -99,11 +99,11 @@ class ChannelEditForm(forms.ModelForm):
         # #     # 'author_name': 'Some useful help text.',
         # # }
 
-    def clean(self, *args, **kwargs):
-        data = super().clean(*args, **kwargs)
-        print('---------', data)
-        Channel.objects.update(user=data['user'], 
-            coverPicture=data['coverPicture'], channelLogo=data['channelLogo'], about=data['about'])
+    # def clean(self, *args, **kwargs):
+    #     data = super().clean(*args, **kwargs)
+    #     print('---------', data)
+    #     Channel.objects.update(user=data['user'], 
+    #         coverPicture=data['coverPicture'], channelLogo=data['channelLogo'], about=data['about'])
         
 
-        return data
+    #     return data
