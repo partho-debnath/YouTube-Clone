@@ -1,8 +1,30 @@
+<!----------------------------Navbar----------------------->
+{% load static %}
+<nav class="flex-div">
+  <div class="nav-left flex-div">
+    <img src="{% static 'images/menu.png' %}" alt="" class="menu_icon">
+    <img src="{% static 'images/youtube.png' %}" alt="" class="logo">
 
-<ul>
-    <li><a href="/">Home</a></li>
-    <li><a href="#news">News</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li style="float:right"><a  href="#about">About</a></li>
-  </ul>
-  
+  </div>
+  <div class="nav-middle flex-div">
+    <div class="search_box flex-div">
+      <input type="text" id="search_input" placeholder="Search">
+      <img src="{% static 'images/search.png' %}" alt="">
+    </div>
+    <img src="{% static 'images/voice-search.png' %}" class="mic_icon" alt="">
+  </div>
+  <div class="nav-right flex-div">
+    {% if request.user.is_authenticated %}
+      <img src="{% static 'images/upload.png' %}" alt="">
+      <img src="{% static 'images/more.png' %}" alt="">
+      <img src="{% static 'images/notification.png' %}" alt="">
+      <img src="{{request.user.user.channelLogo.url}}" alt="{{request.user.user.channelLogo}}" class="user-icon">
+    
+      {% else %}
+        <a href="{% url 'signin' %}">
+          <img src="{% static 'images/loginLogo.jpg' %}" alt="Login">
+        </a>
+        
+      {% endif %}
+  </div>
+</nav>
