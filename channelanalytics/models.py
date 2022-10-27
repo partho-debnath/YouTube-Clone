@@ -14,12 +14,12 @@ class Channel(models.Model):
     name = models.CharField(max_length=20, unique=True, blank=False, null=False,
      verbose_name='Channel Name')
     maincontent = models.FileField(help_text='Upload a Short Video.', 
-        upload_to='mediafilles/', blank=True, null=True, 
+        upload_to='mediafilles/videos/', blank=True, null=True, 
         validators=[FileExtensionValidator(allowed_extensions=['MOV','avi','mp4','webm','mkv'])])
     coverPicture = models.ImageField(help_text='Upload A Cover Picture.',
-        upload_to='mediafilles/coverPicture/', default='defaultCoverPicture.jpg', verbose_name='Cover Picture')
+        upload_to='mediafilles/coverPicture/', default='mediafilles/coverPicture/defaultCoverPicture.jpg', verbose_name='Cover Picture')
     channelLogo = models.ImageField(help_text='Upload A Picture(Channel Logo).',
-        upload_to='mediafilles/coverPicture/', default='channelLogoDefault.jpg', verbose_name='Channel Logo')
+        upload_to='mediafilles/logo/', default='mediafilles/logochannelLogoDefault.jpg', verbose_name='Channel Logo')
     subscriber = models.ManyToManyField(User, blank=True, 
         related_name='sususer',verbose_name='Subscriber Email')
     created = models.DateTimeField(auto_now_add=True)

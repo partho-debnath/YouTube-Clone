@@ -16,7 +16,7 @@
     <div class="form">
         {% include 'messages.html' %}
 
-        <form action="{% url 'update-channel' 1 %}" method="post" enctype="multipart/form-data">
+        <form action="{% url 'update-channel' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
 
             {% for field in form %}
@@ -26,6 +26,11 @@
             {% endfor %}
             <button type="submit">Update</button>
         </form>
+    </div>
+
+    <div class="form">
+        <h2>Channel Name : {{channel.name}}</h2>
+        <h3>Subscribers: {{channel.totalSubscriber}}</h3>
     </div>
 
 {% else %}

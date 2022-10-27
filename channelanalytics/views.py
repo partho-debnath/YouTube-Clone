@@ -42,21 +42,24 @@ class EditChannel(LoginRequiredMixin, View):
     template_name ='channelanalytics/createOrEditChannel.html'
 
     def get(self, request, *args, **kwargs):
-        instance = Channel.objects.get(user=request.user)
-        form = ChannelEditForm(instance=instance)
-        context = {'form': form}
+        user_channel = Channel.objects.get(user=request.user)
+        form = ChannelEditForm(instance=user_channel)
+        context = {
+            'form': form,
+            'channel': user_channel
+        }
         return render(request, self.template_name, context)
     
 
     def post(self, request, *args, **kwargs):
-        instance = Channel.objects.get(user=request.POST.get('user'))
-        form = ChannelEditForm(request.POST, request.FILES, instance=instance)
+        user_channel = Channel.objects.get(user=request.POST.get('user'))
+        form = ChannelEditForm(request.POST, request.FILES, instance=user_channel)
     
         if form.is_valid():
             form.save()
             messages.success(request, 'Update Successfully.')
         
-        return HttpResponseRedirect(reverse('update-channel', kwargs={'pk':instance.pk}))
+        return HttpResponseRedirect(reverse('update-channel', kwargs={}))
 
 
 
@@ -75,4 +78,5 @@ class ChannelDetails(DetailView):
 
     template_name ='channelanalytics/ChannelDetails.html'
     model = Channel
+    slug_field = 'slug'
     context_object_name = 'channel'

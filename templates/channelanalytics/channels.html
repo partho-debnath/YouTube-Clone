@@ -10,7 +10,7 @@
 
     {% if channel.maincontent %}
         <div class="channel">
-            <a href="{% url 'channel-details' channel.id %}">
+            <a href="{% url 'channel-details' channel.slug %}">
                 <video width="420" height="240" controls controlsList="nodownload">
                     <source src="{{ channel.maincontent.url }}" type="video/mp4">
                     <source src="{{ channel.maincontent.url }}" type="video/ogg">
