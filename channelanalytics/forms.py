@@ -62,12 +62,46 @@ class ChannelCreateForm(forms.ModelForm):
 
 class ChannelEditForm(forms.ModelForm):
 
-    def __init__(self, *args, **kwargs):
-        # first call parent's constructor
-        super().__init__(*args, **kwargs)
-        # there's a `fields` property now
-        for field in self.Meta.required:
-            self.fields[field].required = True
+    # def __init__(self, *args, **kwargs):
+    #     # first call parent's constructor
+    #     super().__init__(*args, **kwargs)
+    #     # there's a `fields` property now
+    #     for field in self.Meta.required:
+    #         self.fields[field].required = True
+    
+
+    maincontent = forms.FileField(
+        label='Main Content',
+        help_text='Channel Short Video',
+        widget=forms.FileInput(
+            attrs={
+                'class': 'file-input', 
+                'id':'maincontent',
+                'required':True,
+            }
+        )
+    )
+    coverPicture = forms.ImageField(
+        label='Cover Picture',
+        help_text='Channel Cover Picture',
+        widget=forms.FileInput(
+            attrs={
+                'class': 'file-input', 
+                'id':'coverpicture',
+                'required':True,
+            }
+        )
+    )
+    channelLogo = forms.ImageField(
+        help_text='Channel Logo',
+        widget=forms.FileInput(
+            attrs={
+                'class': 'file-input', 
+                'id':'ChannelLogo',
+                'required':True,
+            }
+        )
+    )
     
 
     class Meta:
@@ -78,14 +112,16 @@ class ChannelEditForm(forms.ModelForm):
 
 
         labels = {
-            'maincontent': 'Main Content',
-            'coverPicture': 'Cover Picture',
-            'channelLogo': 'Channel Logo',
             'about': 'About',
         }
         
         widgets = {
-            'about': forms.Textarea(attrs={'placeholder': 'About This Channel'}),
+            'about': forms.Textarea(
+                attrs={
+                    'placeholder': 'About This Channel',
+                    'class': 'file-input',
+                }
+            ),
             'user': forms.HiddenInput(),
         }
 

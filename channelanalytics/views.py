@@ -39,7 +39,6 @@ class CreateChannel(LoginRequiredMixin, View):
 class EditChannel(LoginRequiredMixin, View):
 
     login_url = 'signin'
-    form_class = ChannelEditForm
     template_name ='channelanalytics/createOrEditChannel.html'
 
     def get(self, request, *args, **kwargs):
