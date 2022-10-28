@@ -1,3 +1,4 @@
+from enum import unique
 from django.db import models
 from django.core.validators import MinLengthValidator, FileExtensionValidator
 
@@ -61,3 +62,18 @@ class UserReact(models.Model):
     
     class Meta:
         verbose_name_plural = 'User React'
+    
+
+
+class VideoHistory(models.Model):
+    user = models.ManyToManyField(User, verbose_name='User Name', related_name='history')
+    video = models.OneToOneField(VideoContent, unique=True, verbose_name='Watch Video', related_name='history', on_delete=models.CASCADE)
+    dateTime = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return self.video.contenttitle
+    
+    class Meta:
+        verbose_name_plural = 'Video History'
+        verbose_name = 'Video History'
+    

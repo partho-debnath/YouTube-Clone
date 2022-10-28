@@ -18,8 +18,8 @@
       <img src="{% static 'images/upload.png' %}" alt="">
       <img src="{% static 'images/more.png' %}" alt="">
       <img src="{% static 'images/notification.png' %}" alt="">
-      <img src="{{request.user.user.channelLogo.url}}" alt="{{request.user.user.channelLogo}}" class="user-icon">
-    
+      <img src="{{request.user.user.channelLogo.url}}" alt="Profile" class="user-icon">
+        
       {% else %}
         <a href="{% url 'signin' %}">
           <img src="{% static 'images/loginLogo.jpg' %}" alt="Login">

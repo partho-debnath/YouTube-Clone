@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 
-from .models import PlayList, VideoContent, UserReact
+from .models import PlayList, VideoContent, UserReact, VideoHistory
 
 # Register your models here.
 
@@ -33,3 +33,13 @@ class AdminUserReact(admin.ModelAdmin):
     list_filter = ['user', 'content', 'react']
 
 admin.site.register(UserReact, AdminUserReact)
+
+
+
+@admin.register(VideoHistory)
+class AdminVideoHistory(admin.ModelAdmin):
+    
+    model = VideoHistory
+    list_display = ['video', 'dateTime']
+    list_filter = ['user', 'video', 'dateTime']
+    search_fields = ['user', 'video']
