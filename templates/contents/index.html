@@ -9,14 +9,18 @@
 
 {% block main_content %}
 
-<!-- --------------------main---------------- -->
+    <!-- For Sidebar -->
+    {% include "sidebar.html" %}
+
+
+<!----------------------main------------------>
 
 <div class="content">
     <!-- <div class="banner">
         <img src="{% static 'images/banner2.jpg' %}" alt="banner2.jpg">
     </div> -->
 
-    <!-- ------------------------ video------------------------ -->
+    <!--------------------------video-------------------------->
     <div id="result"></div>
 
 
@@ -25,7 +29,7 @@
         {% for video in videos %}
             {% if video.file.url %}
                 <div class="vid_list">
-                    <a href=""><img src="{% static 'images/thumbnail5.png' %}" alt="" class="thumbnail"></a>
+                    <a href="{% url 'play-video' video.pk %}"><img src="{% static 'images/thumbnail5.png' %}" alt="" class="thumbnail"></a>
                     <div class="flex-div">
                         <img src="{{ video.playlisttitle.channel.channelLogo.url }}" alt="{{video.playlisttitle.channel.channelLogo}}">
                         <div class="vid-info">

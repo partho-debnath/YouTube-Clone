@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} {{ video_stream.contenttitle }} {% endblock title %}
+
+
+
+{% block main_content %}
+
+<div class="content play-content">
+
+    <div class="row">
+        <div class="play-video">
+            <video controls autoplay>
+                <source src="{{ video_stream.file.url }}" type="video/mp4">
+                <source src="{{ video_stream.file.url }}" type="video/ogg">
+            </video>
+
+            <div class="tags">
+                <a href="">#Coading </a><a href="">#html </a><a href="">#css </a> <a href="">#durgesh </a>
+            </div>
+            <h3>Lorem ipsum dolor, sit amet consectetur adipisicing elit. </h3>
+        </div>
+
+        <div class="right-sidebar">
+
+            {% for video_source in videos %}
+                {% if video_source.file %}
+                    <div class="side_video_list">
+                        <a href="{% url 'play-video' video_source.pk %}" class="small-thumbnail"><img src="images/thumbnail1.png" alt=""></a>
+                        <div class="vid-info">
+                            <a href="">{{ video_source.contenttitle }}</a>
+                                <p>{{ video_source.playlisttitle.channel.name }}</p>
+                                <p>413k Views</p>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+        </div>
+
+        <!-- ----------comment section -------------------- -->
+
+    </div>
+</div>
+
+
+{% endblock main_content %}

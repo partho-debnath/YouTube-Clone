@@ -18,8 +18,20 @@ class VideoContents(ListView):
 
 class SpecificVideoContent(DetailView):
 
-    template_name = 'contents/'
-    context_object_name = 'video'
+    template_name = 'contents/playVideo.html'
+    context_object_name = 'video_stream'
     model = VideoContent
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        '''
+        Here, "kwargs" is just: {'object': <Activity: Activity 2>} but
+        self.kwargs if dictonary of keyword agruments "<int: pk>" --> {'pk': 12}
+        '''
+        context['videos'] = VideoContent.objects.exclude(pk=self.kwargs['pk']).order_by('-uploaded')
+        return context
+
+
 
      
