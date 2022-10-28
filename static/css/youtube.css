@@ -246,6 +246,63 @@ nav{
 
 
 
+
+
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  
+  li {
+    float: left;
+  }
+  
+  
+  
+  li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    border-radius:50px;
+  }
+  
+  li a:hover:not(.active) {
+    background-color: red;
+  }
+
+
+.channel-info img{
+    border-radius: 50px;
+    width: 50px;
+    float: left;
+}
+
+.channel-info #channel-name{
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.channel-info #subscriber{
+    padding-left: 16px;
+}
+
+.channel-info .button-config{
+    font-size: 20px;
+}
+.channel-info .button-config{
+   margin-left: 10px;
+}
+.channel-info .button-config img{
+    width: 28px;
+}
+
+
+
 @media (max-width:900px){
     .menu_icon{
         display: none;

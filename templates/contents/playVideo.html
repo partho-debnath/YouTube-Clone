@@ -20,7 +20,26 @@
             <div class="tags">
                 <a href="">#Coading </a><a href="">#html </a><a href="">#css </a> <a href="">#durgesh </a>
             </div>
-            <h3>Lorem ipsum dolor, sit amet consectetur adipisicing elit. </h3>
+            <h3> {{ video_stream.contenttitle }} </h3>
+
+
+            <div class="channel-info">
+                <ul>
+                    <li><img src="{{ video_stream.playlisttitle.channel.channelLogo.url }}" alt="{{ video_stream.playlisttitle.channel.channelLogo }}"></li>
+                    <li>
+                        <a id="channel-name" href=""> <b>{{ video_stream.playlisttitle.channel.name }}</b> </a>
+                        <h5 id="subscriber"> {{ video_stream.playlisttitle.channel.totalSubscriber }} subscribers </h5>
+                    </li>
+
+                    <li> <button type="submit" class="button-config">Subscribe</button> </li>
+                    <li style="float:right"><button type="submit" class="button-config"><img src="{% static 'images/like.png' %}" alt="Like"></button></li>
+                    <li style="float:right"><button type="submit" class="button-config"><img src="{% static 'images/dislike.png' %}" alt="Dislike"></button></li>
+                    <li style="float:right"><button type="submit" class="button-config"><img src="{% static 'images/share.png' %}" alt="Share"></button></li>
+                    <li style="float:right"><button type="submit" class="button-config"><img src="{% static 'images/save.png' %}" alt="Save"></button></li>
+                    
+                  </ul>
+            </div>
+
         </div>
 
         <div class="right-sidebar">
@@ -28,11 +47,11 @@
             {% for video_source in videos %}
                 {% if video_source.file %}
                     <div class="side_video_list">
-                        <a href="{% url 'play-video' video_source.pk %}" class="small-thumbnail"><img src="images/thumbnail1.png" alt=""></a>
+                        <a href="{% url 'play-video' video_source.pk %}" class="small-thumbnail"><img src="{% static 'images/thumbnail1.png' %}" alt=""></a>
                         <div class="vid-info">
-                            <a href="">{{ video_source.contenttitle }}</a>
-                                <p>{{ video_source.playlisttitle.channel.name }}</p>
-                                <p>413k Views</p>
+                            <a href=""><h2>{{ video_source.contenttitle }}</h2></a>
+                                <h3>{{ video_source.playlisttitle.channel.name }}</h3>
+                                <p>413k Views, {{ video_source.uploaded|timesince }} </p>
                         </div>
                     </div>
                 {% endif %}
