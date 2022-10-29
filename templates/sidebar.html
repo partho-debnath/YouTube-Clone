@@ -36,8 +36,8 @@
         {% if request.user.is_authenticated %}
             {% for user in request.user.user.subscriber.all %}
                 
-            <a href=""><img src="{{ user.user.channelLogo.url }}" alt="{{user.user.channelLogo}}">
-            <p>{{user.user.name}}</p>
+            <a href=""><img src="{{ user.user.channelLogo.url }}" alt="Picture">
+            <p>{{ user.user.name }}</p>
             </a>
             {% endfor %}
         {% endif %}

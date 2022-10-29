@@ -80,3 +80,4 @@ class ChannelDetails(DetailView):
     model = Channel
     slug_field = 'slug'
     context_object_name = 'channel'
+    

@@ -1,17 +1,61 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %} {{ channel.name|title }} {% endblock title %}
 
 {% block main_content %}
-
-<div class="container">
-
-    Owner: {{ channel.user }} <br>
-    Channel Name: {{ channel.name }} <br>
-    Subscribers: {{ channel.totalSubscriber }} <br>
-
-    {{channel.slug}}
     
+    <!-- For Sidebar -->
+    {% include "sidebar.html" %}
+
+    <div class="banner">
+        <img src="{{ channel.coverPicture.url }}" alt="Cover Picture">
+    </div>
+
+    <!--------------------------video-------------------------->
+    <div id="result"></div>
+
+<div class="content">
+
+    <div class="channel-info channel-details">
+        {{ channel.slug|json_script:"channel-url" }}
+        <ul>
+            <li><img src="{{ channel.channelLogo.url }}" alt="Channel Logo"></li>
+            <li>
+                <h2 id="channel-name">{{ channel.name }}</h2>
+                <h4 >
+                    {% if channel.totalSubscriber == 0 %}
+                        No
+                    {% else %}
+                        {{ channel.totalSubscriber }}
+                    {% endif %}
+                    subscribers
+                </h4>
+            </li>
+            <li style="float:right"><button onclick="getChannelUrl()" class="button-config"><img src="{% static 'images/share.png' %}" alt="Share"></button></li>
+            <li style="float:right"> <button type="submit" class="button-config">Subscribe</button> </li>
+            
+          </ul>
+    </div>
+
+    <div class="channel-info">
+        <ul>
+            <li><a href=""> HOME </a></li>
+            <li><a href=""> VIDEOS </a></li>
+            <li><a href=""> PLAYLISTS </a></li>
+            <li><a href=""> COMMUNITY </a></li>
+            <li><a href=""> CHANNELS </a></li>
+            <li><a href=""> ABOUT </a></li>
+          </ul>
+    </div>
+
+    <div class="content">
+        <video width="424" height="338" controls autoplay>
+            <source src="{{ channel.maincontent.url }}" type="video/mp4">
+            <source src="{{ channel.maincontent.url }}" type="video/ogg">
+            Your browser does not support the video tag.
+        </video>
+    </div>
 
 
 </div>

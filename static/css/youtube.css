@@ -312,6 +312,11 @@ li a:hover:not(.active) {
     float: left;
 }
 
+.channel-details img{
+    width: 70px;
+    margin-right: 10px;
+}
+
 .channel-info #channel-name {
     padding-top: 5px;
     padding-bottom: 5px;
@@ -331,6 +336,19 @@ li a:hover:not(.active) {
 
 .channel-info .button-config img {
     width: 28px;
+}
+.channel-details #channel-name{
+    padding-top: 11px;
+}
+
+.channel-details .button-config{
+    margin-top: 11px;
+    background: red;
+    color: white;
+}
+
+.channel-details .button-config:hover{
+    cursor: pointer;
 }
 
 

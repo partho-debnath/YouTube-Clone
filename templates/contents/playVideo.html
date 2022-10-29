@@ -29,11 +29,11 @@
                 <ul>
                     <li><img src="{{ video_stream.playlisttitle.channel.channelLogo.url }}" alt="{{ video_stream.playlisttitle.channel.channelLogo }}"></li>
                     <li>
-                        <a id="channel-name" href=""> <b>{{ video_stream.playlisttitle.channel.name }}</b> </a>
+                        <a id="channel-name" href="{% url 'channel-details' video_stream.playlisttitle.channel.slug %}"> <b>{{ video_stream.playlisttitle.channel.name }}</b> </a>
                         <h5 id="subscriber"> {{ video_stream.playlisttitle.channel.totalSubscriber }} subscribers </h5>
                     </li>
                     <li style="float:right"><button type="submit" class="button-config"><img src="{% static 'images/save.png' %}" alt="Save"></button></li>
-                    <li style="float:right"><button onclick="myFunction()" class="button-config"><img src="{% static 'images/share.png' %}" alt="Share"></button></li>
+                    <li style="float:right"><button onclick="getVideoUrl()" class="button-config"><img src="{% static 'images/share.png' %}" alt="Share"></button></li>
                     <li> <button type="submit" class="button-config">Subscribe</button> </li>
                     <li style="float:right"><button type="submit" class="button-config"><img src="{% static 'images/dislike.png' %}" alt="Dislike"></button></li>
                     <li style="float:right"><button type="submit" class="button-config"><img src="{% static 'images/like.png' %}" alt="Like"></button></li>
