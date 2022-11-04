@@ -21,16 +21,26 @@ function getChannelUrl(){
 document.getElementById('btn-Subscribe').onclick = function (event){
     console.log("Ok");
     const channelID = document.getElementById('channel-id').textContent;
-    const ws = new WebSocket(
+    const ws = new WebSocket( 
         'ws://'
         + window.location.host
-        + '/ws/ac/'
+        + '/ws/ac/'                  //   '/ws/ac/'   Asynchronous Connection
         + 'channel-subscribe/'
         + channelID
         + '/'
     );
 
     ws.onopen = function (event) {
-        console.log("Connect");
+        console.log("Connect", event);
+        if (document.getElementById('btn-Subscribe').innerText == 'Subscribe'){
+            document.getElementById('btn-Subscribe').innerText = 'Subscribed';
+        }
+        else {
+            document.getElementById('btn-Subscribe').innerText = 'Subscribe';
+        };
+    };
+
+    ws.onclose = function (event) {
+        console.log('Connection Closed');
     };
 };
