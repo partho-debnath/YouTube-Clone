@@ -34,7 +34,20 @@
                     </li>
                     <li style="float:right"><button type="submit" class="button-config"><img src="{% static 'images/save.png' %}" alt="Save"></button></li>
                     <li style="float:right"><button onclick="getVideoUrl()" class="button-config"><img src="{% static 'images/share.png' %}" alt="Share"></button></li>
-                    <li> <button type="submit" class="button-config">Subscribe</button> </li>
+                    <li> 
+                        {% if request.user.is_authenticated %}
+                            {{ video_stream.playlisttitle.channel.slug|json_script:"channel-id" }}
+                            <button type="submit" class="button-config" id="btn-Subscribe">
+                            {% if request.user in video_stream.playlisttitle.channel.subscriber.all %}
+                                Subscribed
+                            {% else %}
+                                Subscribe
+                            {% endif %}
+                            </button>
+                        {% else %}
+                            <button type="submit" class="button-config">Subscribe</button>
+                        {% endif %}     
+                    </li>
                     <li style="float:right"><button type="submit" class="button-config"><img src="{% static 'images/dislike.png' %}" alt="Dislike"></button></li>
                     <li style="float:right"><button type="submit" class="button-config"><img src="{% static 'images/like.png' %}" alt="Like"></button></li>
                     

@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne', # Django Channels pip
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,8 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'user',
-    'channelanalytics',
-    'contents'
+    'channelanalytics', 
+    'contents',
+    'mychannel' # django channel/websocket
 ]
 
 MIDDLEWARE = [
@@ -73,7 +75,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'YouTube.wsgi.application'
+# WSGI_APPLICATION = 'YouTube.wsgi.application'
+ASGI_APPLICATION = 'YouTube.asgi.application'
 
 
 # Database

@@ -18,3 +18,19 @@ function getChannelUrl(){
 };
 
 
+document.getElementById('btn-Subscribe').onclick = function (event){
+    console.log("Ok");
+    const channelID = document.getElementById('channel-id').textContent;
+    const ws = new WebSocket(
+        'ws://'
+        + window.location.host
+        + '/ws/ac/'
+        + 'channel-subscribe/'
+        + channelID
+        + '/'
+    );
+
+    ws.onopen = function (event) {
+        console.log("Connect");
+    };
+};

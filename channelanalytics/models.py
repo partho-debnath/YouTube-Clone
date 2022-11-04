@@ -27,7 +27,7 @@ class Channel(models.Model):
     slug = models.SlugField(unique=True)
 
     def __str__(self):
-        return self.name
+        return self.name # 2-channel-tintin
 
     @property
     def totalSubscriber(self):
