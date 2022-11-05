@@ -43,7 +43,7 @@ class SpecificVideoContent(DetailView):
         return context
 
      
-class VideoLike(LoginRequiredMixin, View):
+class VideoLikeOrRemoveLike(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         

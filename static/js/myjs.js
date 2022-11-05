@@ -51,7 +51,7 @@ document.getElementById('btn-Subscribe').onclick = function (event){
 document.getElementById('like-video-btn').onclick = function(event) {
     console.log('Click Like Button.');
 
-    let url = "http://" + window.location.host + "/content/like-video/";
+    let url = "http://" + window.location.host + "/content/like-or-remove-like-video/";
     const videoID = document.getElementById('videoID').innerText;
 
     $.ajax({
@@ -72,5 +72,4 @@ document.getElementById('like-video-btn').onclick = function(event) {
             console.log(error);
         }
     })
-
 };
