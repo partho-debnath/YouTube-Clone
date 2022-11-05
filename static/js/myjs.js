@@ -44,3 +44,26 @@ document.getElementById('btn-Subscribe').onclick = function (event){
         console.log('Connection Closed');
     };
 };
+
+
+document.getElementById('like-video-btn').onclick = function(event) {
+    console.log('Click Like Button.');
+
+    let url = "http://" + window.location.host + "/content/like-video/";
+    const videoID = document.getElementById('videoID').innerText;
+
+    $.ajax({
+        type: 'GET',
+        url: url,
+        data: {'video_id': videoID},
+        success: function (data) {
+            if(data['message'] == "added"){
+                console.log('Liked......');
+            }
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    })
+
+};

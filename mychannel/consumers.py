@@ -17,7 +17,7 @@ class MyAsyncJsonWebsocketConsumer(AsyncJsonWebsocketConsumer):
         channel = await database_sync_to_async(Channel.objects.get)(slug=channelID)
 
         try:
-            unSuscChannel = await database_sync_to_async(Channel.objects.get)(slug=channelID, subscriber=user.id)
+            unSuscChannel = await database_sync_to_async(Channel.objects.get)(slug=channelID, subscriber__email=user)
         except channel.DoesNotExist:
             await database_sync_to_async(channel.subscriber.add)(user)
             await database_sync_to_async(channel.save)()

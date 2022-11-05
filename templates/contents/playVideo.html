@@ -48,8 +48,18 @@
                             <button type="submit" class="button-config">Subscribe</button>
                         {% endif %}     
                     </li>
-                    <li style="float:right"><button type="submit" class="button-config"><img src="{% static 'images/dislike.png' %}" alt="Dislike"></button></li>
-                    <li style="float:right"><button type="submit" class="button-config"><img src="{% static 'images/like.png' %}" alt="Like"></button></li>
+                    {{ video_stream.pk|json_script:"videoID" }}
+                    <li style="float:right">
+                        <button type="submit" class="button-config">
+                            <img src="{% static 'images/dislike.png' %}" alt="Dislike">
+                        </button>
+                    </li>
+                    <li style="float:right">
+                        
+                        <button type="submit" class="button-config" id="like-video-btn">
+                            <img src="{% static 'images/like.png' %}" alt="Like">
+                        </button>
+                    </li>
                     
                   </ul>
             </div>
@@ -75,5 +85,6 @@
 
     </div>
 </div>
+
 
 {% endblock main_content %}
