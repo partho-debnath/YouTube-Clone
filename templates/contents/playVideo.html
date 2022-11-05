@@ -50,15 +50,26 @@
                     </li>
                     {{ video_stream.pk|json_script:"videoID" }}
                     <li style="float:right">
-                        <button type="submit" class="button-config">
+                        <button type="submit" class="button-config" id="dislike-video-btn">
                             <img src="{% static 'images/dislike.png' %}" alt="Dislike">
                         </button>
                     </li>
                     <li style="float:right">
-                        
-                        <button type="submit" class="button-config" id="like-video-btn">
-                            <img src="{% static 'images/like.png' %}" alt="Like">
-                        </button>
+                        {% if request.user.is_authenticated %}
+                            {% if liked == True %}
+                                <button type="submit" class="button-config video-liked" id="like-video-btn">
+                                    <img src="{% static 'images/like.png' %}" alt="Like">
+                                </button>
+                            {% else %}
+                                <button type="submit" class="button-config" id="like-video-btn">
+                                    <img src="{% static 'images/like.png' %}" alt="Like">
+                                </button>
+                            {% endif %}
+                        {% else %}
+                            <button type="submit" class="button-config" id="like-video-btn">
+                                <img src="{% static 'images/like.png' %}" alt="Like">
+                            </button>
+                        {% endif %}
                     </li>
                     
                   </ul>
@@ -81,7 +92,7 @@
             {% endfor %}
         </div>
 
-        <!-- ----------comment section -------------------- -->
+        <!------------comment section ---------------------->
 
     </div>
 </div>

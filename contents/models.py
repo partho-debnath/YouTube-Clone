@@ -56,8 +56,8 @@ class UserReact(models.Model):
     content = models.ManyToManyField(VideoContent, verbose_name='Select Content', related_name='react')
     react = models.CharField(max_length=2, choices=REACT_CHOICES)
 
-    def __str__(self) -> bool:
-        return self.react
+    def __str__(self):
+        return str(self.user.email)
     
     class Meta:
         verbose_name_plural = 'User React'

@@ -337,6 +337,10 @@ li a:hover:not(.active) {
 .channel-info .button-config img {
     width: 28px;
 }
+.channel-info .video-liked {
+    background-color: #4738cf;
+}
+
 .channel-details #channel-name{
     padding-top: 11px;
 }

@@ -46,6 +46,8 @@ document.getElementById('btn-Subscribe').onclick = function (event){
 };
 
 
+//---------------------------For Like or Remove Like---------------------------
+
 document.getElementById('like-video-btn').onclick = function(event) {
     console.log('Click Like Button.');
 
@@ -57,8 +59,13 @@ document.getElementById('like-video-btn').onclick = function(event) {
         url: url,
         data: {'video_id': videoID},
         success: function (data) {
-            if(data['message'] == "added"){
-                console.log('Liked......');
+            if(data['message'] == "like-added"){
+                console.log('Like Added......');
+                document.getElementById('like-video-btn').style.backgroundColor="#4738cf";
+            }
+            else if(data['message'] == "like-removed"){
+                console.log('Like Removed......');
+                document.getElementById('like-video-btn').style.backgroundColor="white";
             }
         },
         error: function (error) {
