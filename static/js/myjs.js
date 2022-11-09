@@ -17,8 +17,8 @@ function getChannelUrl(){
     navigator.clipboard.writeText(channel_url);
 };
 
-//---------------------------For Subscribe and Unsubscribe---------------------------
 
+//---------------------------For Subscribe and Unsubscribe---------------------------
 document.getElementById('btn-Subscribe').onclick = function (event){
     console.log("Ok");
     const channelID = document.getElementById('channel-id').textContent;
@@ -51,7 +51,6 @@ document.getElementById('btn-Subscribe').onclick = function (event){
 
 
 //---------------------------For Like or Remove Like---------------------------
-
 document.getElementById('like-video-btn').onclick = function(event) {
     console.log('Click Like Button.');
 
