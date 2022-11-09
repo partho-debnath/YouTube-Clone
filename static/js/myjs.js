@@ -17,33 +17,37 @@ function getChannelUrl(){
     navigator.clipboard.writeText(channel_url);
 };
 
+//---------------------------For Subscribe and Unsubscribe---------------------------
 
 document.getElementById('btn-Subscribe').onclick = function (event){
     console.log("Ok");
     const channelID = document.getElementById('channel-id').textContent;
-    const ws = new WebSocket( 
-        'ws://'
-        + window.location.host
-        + '/ws/ac/'                  //   '/ws/ac/'   Asynchronous Connection
-        + 'channel-subscribe/'
-        + channelID
-        + '/'
-    );
+    const url = "http://" + window.location.host + '/content/' + 'channel-subscribe/' + JSON.parse(channelID) + '/';
 
-    ws.onopen = function (event) {
-        console.log("Connect", event);
-        if (document.getElementById('btn-Subscribe').innerText == 'Subscribe'){
-            document.getElementById('btn-Subscribe').innerText = 'Subscribed';
+    $.ajax({
+        type: 'GET',
+        url : url,
+        success: function (data) {
+            if(data['message'] == "subscribed"){
+                console.log('Subscribe Added......');
+                document.getElementById('btn-Subscribe').innerText = 'Subscribed';
+                document.getElementById('btn-Subscribe').style.backgroundColor="#4738cf";
+            }
+            else if(data['message'] == "unsubscribed"){
+                console.log('Remove Subscribe......');
+                document.getElementById('btn-Subscribe').innerText = 'Subscribe';
+                document.getElementById('btn-Subscribe').style.backgroundColor="white";
+            }
+
+        },
+        error: function (data) {
+            console.log('-----------Error-----------');
+            console.log(data);
         }
-        else {
-            document.getElementById('btn-Subscribe').innerText = 'Subscribe';
-        };
-    };
+    })
+    console.log(url);
 
-    ws.onclose = function (event) {
-        console.log('Connection Closed');
-    };
-};
+}
 
 
 //---------------------------For Like or Remove Like---------------------------
@@ -72,4 +76,4 @@ document.getElementById('like-video-btn').onclick = function(event) {
             console.log(error);
         }
     })
-};
+}

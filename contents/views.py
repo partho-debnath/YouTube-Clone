@@ -3,9 +3,12 @@ from django.views.generic import ListView, DetailView
 from django.views import View
 from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
+
 from . models import VideoContent, UserReact
+from channelanalytics.models import Channel
 
 # Create your views here.
+
 
 class VideoContents(ListView):
 
@@ -42,7 +45,24 @@ class SpecificVideoContent(DetailView):
         context['videos'] = VideoContent.objects.exclude(pk=self.kwargs['pk']).order_by('-uploaded')
         return context
 
-     
+
+class ChannelSubscribeOrUnsubscribe(LoginRequiredMixin, View):
+    
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        channel = Channel.objects.get(slug=kwargs['slug'])
+
+        if channel.subscriber.filter(email=user).exists() == False:
+            # print('Not Exis.Now Add')
+            channel.subscriber.add(user)
+            return JsonResponse({'message': 'subscribed'})
+        else:
+            # print('Exis.Now Remove')
+            channel.subscriber.remove(user)
+        return JsonResponse({'message': 'unsubscribed'})        
+
+
+
 class VideoLikeOrRemoveLike(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
@@ -51,17 +71,17 @@ class VideoLikeOrRemoveLike(LoginRequiredMixin, View):
         videoID = request.GET['video_id']
         
         vcontent = VideoContent.objects.get(pk=videoID)
-        print(user, videoID, vcontent)
+        # print(user, videoID, vcontent)
         try:
             userReact = UserReact.objects.get(user__email=user, react='LI')
         except UserReact.DoesNotExist:
             userReact = UserReact.objects.create(user=user, react='LI')
         if userReact.content.filter(pk=vcontent.pk).exists() == True:
-            print('Exists')
+            # print('Exists.')
             userReact.content.remove(vcontent)
             return JsonResponse({'message': 'like-removed'}, safe=True)
         else:
-            print('Not Exists')
+            # print('Not Exists.')
             userReact.content.add(vcontent)
         
         return JsonResponse({'message': 'like-added'}, safe=True)
