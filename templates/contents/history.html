@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} Youtube {% endblock title %}
+
+
+
+
+{% block main_content %}
+
+<!-- For Sidebar -->
+{% include "sidebar.html" %}
+
+
+<!----------------------main------------------>
+
+<div class="content">
+
+    <div class="content play-content">
+
+        <div class="row">
+
+            <div class="right-sidebar">
+                {% for video_source in videohistory %}
+                    {% if video_source.file %}
+                        <div class="side_video_list">
+                            <a href="{% url 'play-video' video_source.pk %}" class="small-thumbnail"><img
+                                    src="{% static 'images/thumbnail1.png' %}" alt=""></a>
+                            <div class="vid-info">
+                                <a href="">
+                                    <h2>{{ video_source.contenttitle }}</h2>
+                                </a>
+                                <h3>{{ video_source.playlisttitle.channel.name }}</h3>
+                                <p>413k Views, {{ video_source.uploaded|timesince }} </p>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <div class="manege-history">
+                <ul>
+                    <li>
+                        <a href="{% url 'remove-user-video-history' %}">Remove All History</a>
+                    </li><br>
+                    <li>
+                        <a href="">Link?</a> 
+                    </li><br>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock main_content %}

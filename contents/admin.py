@@ -40,6 +40,6 @@ admin.site.register(UserReact, AdminUserReact)
 class AdminVideoHistory(admin.ModelAdmin):
     
     model = VideoHistory
-    list_display = ['video', 'dateTime']
+    list_display = ['user', 'dateTime']
     list_filter = ['user', 'video', 'dateTime']
     search_fields = ['user', 'video']

@@ -1,10 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, reverse
 from django.views.generic import ListView, DetailView
 from django.views import View
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from . models import VideoContent, UserReact
+from . models import VideoContent, UserReact, VideoHistory
 from channelanalytics.models import Channel
 
 # Create your views here.
@@ -86,3 +86,31 @@ class VideoLikeOrRemoveLike(LoginRequiredMixin, View):
         
         return JsonResponse({'message': 'like-added'}, safe=True)
 
+
+
+class UserVideoHistory(LoginRequiredMixin, View):
+
+    template_name = 'contents/history.html'
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        watchvideouser = VideoHistory.objects.filter(user=user)
+
+        if watchvideouser:
+            watchvideos = watchvideouser[0].video.all()[::-1]
+            context = {'videohistory': watchvideos}
+        else:
+            context = {}
+        return render(request, self.template_name, context)
+
+
+
+class RemoveUserVideoHistory(LoginRequiredMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        watchvideouser = VideoHistory.objects.filter(user=user).first()
+
+        if watchvideouser:
+            watchvideouser.delete()
+        return HttpResponseRedirect(reverse('user-video-history'))

@@ -65,12 +65,12 @@ class UserReact(models.Model):
 
 
 class VideoHistory(models.Model):
-    user = models.ManyToManyField(User, verbose_name='User Name', related_name='history')
-    video = models.OneToOneField(VideoContent, unique=True, verbose_name='Watch Video', related_name='history', on_delete=models.CASCADE)
+    user = models.OneToOneField(User, unique=True, verbose_name='User Name', related_name='history', on_delete=models.CASCADE)
+    video = models.ManyToManyField(VideoContent, verbose_name='Watch Video', related_name='history')
     dateTime = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
-        return self.video.contenttitle
+        return self.user.email
     
     class Meta:
         verbose_name_plural = 'Video History'
