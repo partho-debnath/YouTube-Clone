@@ -32,7 +32,17 @@
                         <a id="channel-name" href="{% url 'channel-details' video_stream.playlisttitle.channel.slug %}"> <b>{{ video_stream.playlisttitle.channel.name }}</b> </a>
                         <h5 id="subscriber"> {{ video_stream.playlisttitle.channel.totalSubscriber }} subscribers </h5>
                     </li>
-                    <li style="float:right"><button type="submit" class="button-config"><img src="{% static 'images/save.png' %}" alt="Save"></button></li>
+                    <li style="float:right">
+                        {% if AddedWatchLater == True %}
+                            <button type="submit" class="button-config added-watch" id="add-to-watch-later">
+                                <img src="{% static 'images/save.png' %}" alt="Save">
+                            </button>
+                        {% else %}
+                            <button type="submit" class="button-config" id="add-to-watch-later">
+                                <img src="{% static 'images/save.png' %}" alt="Save">
+                            </button>
+                        {% endif %}
+                    </li>
                     <li style="float:right"><button onclick="getVideoUrl()" class="button-config"><img src="{% static 'images/share.png' %}" alt="Share"></button></li>
                     <li> 
                         {% if request.user.is_authenticated %}
@@ -48,7 +58,7 @@
                             <button type="submit" class="button-config">Subscribe</button>
                         {% endif %}     
                     </li>
-                    {{ video_stream.pk|json_script:"videoID" }}
+                    
                     <li style="float:right">
                         <button type="submit" class="button-config" id="dislike-video-btn">
                             <img src="{% static 'images/dislike.png' %}" alt="Dislike">
@@ -77,7 +87,6 @@
         </div>
 
         <div class="right-sidebar">
-
             {% for video_source in videos %}
                 {% if video_source.file %}
                     <div class="side_video_list">
@@ -92,7 +101,7 @@
             {% endfor %}
         </div>
 
-        <!------------comment section ---------------------->
+        <!-----------------------Comment Section----------------------->
 
     </div>
 </div>

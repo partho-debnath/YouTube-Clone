@@ -4,7 +4,7 @@ from django.views import View
 from django.http import JsonResponse, HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from . models import VideoContent, UserReact, VideoHistory
+from . models import VideoContent, UserReact, VideoHistory, WatchLater
 from channelanalytics.models import Channel
 
 # Create your views here.
@@ -38,7 +38,12 @@ class SpecificVideoContent(DetailView):
         if self.request.user.is_authenticated == True:
             user = self.request.user
             video = VideoContent.objects.get(pk=self.kwargs['pk'])
+
+            '''
+            Check the playing video is already like, add-to-watch-later or not.
+            '''
             context['liked'] = UserReact.objects.filter(user=user.pk, content=video.pk, react='LI').exists()
+            context['AddedWatchLater'] = user.watchLater.videos.filter(pk=video.pk).exists()
             
 
             '''
@@ -128,3 +133,22 @@ class RemoveUserVideoHistory(LoginRequiredMixin, View):
         if watchvideouser:
             watchvideouser.delete()
         return HttpResponseRedirect(reverse('user-video-history'))
+
+
+class AddToWatchLater(LoginRequiredMixin, View):
+
+    login_url = 'signin'
+
+    def get(self, request, *args, **kwargs):
+
+        video_id = request.GET['video_id']
+        get_watch_later_obj, create = WatchLater.objects.get_or_create(user=request.user)
+
+        if get_watch_later_obj.videos.filter(pk=video_id).exists() == False:
+            get_watch_later_obj.videos.add(video_id)
+            # print('This video is Add to Watch later.')
+            return JsonResponse({'message': 'Add to Watch Later'})
+        else:
+            get_watch_later_obj.videos.remove(video_id)
+            # print('This video is Remove from Watch later.')
+            return JsonResponse({'message': 'Remove from Watch Later'})

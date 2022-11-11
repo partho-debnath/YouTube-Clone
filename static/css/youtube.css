@@ -337,7 +337,7 @@ li a:hover:not(.active) {
 .channel-info .button-config img {
     width: 28px;
 }
-.channel-info .video-liked {
+.channel-info .video-liked, .added-watch {
     background-color: #4738cf;
 }
 

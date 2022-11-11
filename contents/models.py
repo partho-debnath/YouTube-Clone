@@ -76,3 +76,15 @@ class VideoHistory(models.Model):
         verbose_name_plural = 'Video History'
         verbose_name = 'Video History'
     
+
+class WatchLater(models.Model):
+    user = models.OneToOneField(User, unique=True, verbose_name='User Name', related_name='watchLater', on_delete=models.CASCADE)
+    videos = models.ManyToManyField(VideoContent, verbose_name='Watch Video', related_name='watchLater')
+    dateTime = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return self.user.email
+
+    class Meta:
+        verbose_name_plural = 'Watch Later'
+        verbose_name = 'Watch Later'
