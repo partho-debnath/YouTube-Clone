@@ -39,14 +39,23 @@ class SpecificVideoContent(DetailView):
             user = self.request.user
             video = VideoContent.objects.get(pk=self.kwargs['pk'])
             context['liked'] = UserReact.objects.filter(user=user.pk, content=video.pk, react='LI').exists()
-        else:
-            pass
+            
+
+            '''
+            The played video is added to the user's watch history if that video does not already exist
+            '''
+            get_user_history_obj, create = VideoHistory.objects.get_or_create(user=user)
+            if get_user_history_obj.video.filter(pk=kwargs['object'].pk).exists() == False:
+                # print('This Video is not Found in your watch History.')
+                get_user_history_obj.video.add(kwargs['object'])
         
         context['videos'] = VideoContent.objects.exclude(pk=self.kwargs['pk']).order_by('-uploaded')
         return context
 
 
 class ChannelSubscribeOrUnsubscribe(LoginRequiredMixin, View):
+
+    login_url = 'signin'
     
     def get(self, request, *args, **kwargs):
         user = request.user
@@ -64,6 +73,8 @@ class ChannelSubscribeOrUnsubscribe(LoginRequiredMixin, View):
 
 
 class VideoLikeOrRemoveLike(LoginRequiredMixin, View):
+
+    login_url = 'signin'
 
     def get(self, request, *args, **kwargs):
         
@@ -90,6 +101,7 @@ class VideoLikeOrRemoveLike(LoginRequiredMixin, View):
 
 class UserVideoHistory(LoginRequiredMixin, View):
 
+    login_url = 'signin'
     template_name = 'contents/history.html'
 
     def get(self, request, *args, **kwargs):
@@ -106,6 +118,8 @@ class UserVideoHistory(LoginRequiredMixin, View):
 
 
 class RemoveUserVideoHistory(LoginRequiredMixin, View):
+
+    login_url = 'signin'
 
     def get(self, request, *args, **kwargs):
         user = request.user
