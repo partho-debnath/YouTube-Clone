@@ -13,15 +13,13 @@
 {% include "sidebar.html" %}
 
 
-<!----------------------main------------------>
-
 <div class="content">
-
     <div class="content play-content">
+        
+        <div class="history">
 
-        <div class="row">
+            <div class="history-left-sidebar">
 
-            <div class="right-sidebar">
                 {% for video_source in videohistory %}
                     {% if video_source.file %}
                         <div class="side_video_list">
@@ -37,20 +35,19 @@
                         </div>
                     {% endif %}
                 {% endfor %}
+    
             </div>
-
-            <div class="manege-history">
-                <ul>
-                    <li>
-                        <a href="{% url 'remove-user-video-history' %}">Remove All History</a>
-                    </li><br>
-                    <li>
-                        <a href="">Link?</a> 
-                    </li><br>
-                </ul>
+    
+            <div class="history-right-sidebar">
+        
+                <a href="{% url 'remove-user-video-history' %}">&#8226; Remove All History</a> <br>
+            
+                <a href="">&#8226; Link?</a> 
+            
             </div>
 
         </div>
+
     </div>
 
 </div>

@@ -356,6 +356,33 @@ li a:hover:not(.active) {
 }
 
 
+.history {
+    display: flex;
+}
+
+.history .history-left-sidebar, .history-right-sidebar{
+    width: 50%;
+    background-color: whitesmoke;
+}
+
+.history .history-right-sidebar {
+    margin-left: 5px;
+    background-color: white;
+}
+.history .history-right-sidebar a{
+    display: block;
+    margin: 10px 10px;
+}
+
+.history .side_video_list :hover{
+    /* background-color: #0000ff; */
+    background: url("../images/cancel.png") 10% no-repeat;
+}
+
+
+
+
+
 
 @media (max-width:900px) {
     .menu_icon {
