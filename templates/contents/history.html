@@ -33,9 +33,11 @@
                                 <p>413k Views, {{ video_source.uploaded|timesince }} </p>
                             </div>
                         </div>
+                        <a href="{% url 'remove-user-specific-video-history' video_source.id %}">
+                            <img src="{% static 'images/cancel.png' %}">
+                        </a>
                     {% endif %}
                 {% endfor %}
-    
             </div>
     
             <div class="history-right-sidebar">

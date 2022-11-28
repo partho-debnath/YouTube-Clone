@@ -121,7 +121,6 @@ class UserVideoHistory(LoginRequiredMixin, View):
         return render(request, self.template_name, context)
 
 
-
 class RemoveUserVideoHistory(LoginRequiredMixin, View):
 
     login_url = 'signin'
@@ -132,6 +131,16 @@ class RemoveUserVideoHistory(LoginRequiredMixin, View):
 
         if watchvideouser:
             watchvideouser.delete()
+        return HttpResponseRedirect(reverse('user-video-history'))
+
+
+class RemoveUserSpecificVideoHistory(LoginRequiredMixin,View):
+    login_url = 'signin'
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        watchvideouser = VideoHistory.objects.filter(user=user).first().video.filter(pk=kwargs['pk'])
+        watchvideouser.delete()
         return HttpResponseRedirect(reverse('user-video-history'))
 
 
