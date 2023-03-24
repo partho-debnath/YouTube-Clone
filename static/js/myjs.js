@@ -84,7 +84,7 @@ document.getElementById('like-video-btn').onclick = function(event) {
 document.getElementById('add-to-watch-later').onclick = function(event) {
     console.log('Click Like Button.');
 
-    let url = "http://" + window.location.host + "/content/add-to-watch-later/";
+    let url = "http://" + window.location.host + "/content/add-or-remove-watch-later/";
     const video_unique_id = document.getElementById('video-unique-id').innerText;
 
     $.ajax(

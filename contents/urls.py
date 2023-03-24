@@ -10,5 +10,7 @@ urlpatterns = [
     path('remove-specifi-video-history/<int:pk>/', views.RemoveUserSpecificVideoHistory.as_view(), name='remove-user-specific-video-history'),
     path('channel-subscribe/<str:slug>/', views.ChannelSubscribeOrUnsubscribe.as_view(), name='channel-un-subscribe'),
     path('like-or-remove-like-video/', views.VideoLikeOrRemoveLike.as_view(), name='video-like-or-remove-like'),
-    path('add-to-watch-later/', views.AddToWatchLater.as_view(), name='add-to-watch-later')
+    path('add-or-remove-watch-later/', views.AddOrRemoveWatchLater.as_view(), name='add-to-watch-later'),
+    path('library-videos/', views.LibaryVideoList.as_view(), name='library-videos'),
+    path('remove-libary-video-list/', views.RemoveLibaryVideoList.as_view(), name='remove-libary-video-list'),
 ]

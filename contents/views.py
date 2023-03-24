@@ -144,7 +144,7 @@ class RemoveUserSpecificVideoHistory(LoginRequiredMixin,View):
         return HttpResponseRedirect(reverse('user-video-history'))
 
 
-class AddToWatchLater(LoginRequiredMixin, View):
+class AddOrRemoveWatchLater(LoginRequiredMixin, View):
 
     login_url = 'signin'
 
@@ -161,3 +161,26 @@ class AddToWatchLater(LoginRequiredMixin, View):
             get_watch_later_obj.videos.remove(video_id)
             # print('This video is Remove from Watch later.')
             return JsonResponse({'message': 'Remove from Watch Later'})
+
+
+class LibaryVideoList(LoginRequiredMixin, ListView):
+
+    login_url = 'signin'
+    template_name = 'contents/videoWatchLater.html'
+    context_object_name = 'videos'
+    
+    def get_queryset(self):
+        user = WatchLater.objects.filter(user=self.request.user).first()
+        if user is not None:
+            return user.videos.all()
+        return None
+
+
+class RemoveLibaryVideoList(LoginRequiredMixin, View):
+
+    login_url = 'signin'
+
+    def get(self, request, *args, **kwargs):
+        request.user.watchLater.videos.clear()
+        return HttpResponseRedirect(reverse('library-videos', ))
+    
